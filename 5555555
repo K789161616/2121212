@@ -1,0 +1,323 @@
+=e")
+local r9_3 = game:GetService("TeleportService")
+local r10_3 = game:GetService("Workspace").CurrentCamera
+rands = {
+"Head",
+"HumanoidRootPart"
+}
+local r11_3 = {}
+local r12_3 = {}
+local r13_3 = {}
+local r14_3 = loadstring(game:HttpGet("https://raw.githubusercontent.com/TTX-OnTop/CPEnjoyer/refs/heads/main/Settings"))()
+local r15_3 = loadstring(game:HttpGet("https://raw.githubusercontent.com/TTX-OnTop/CPEnjoyer/refs/heads/main/BanCheck"))()
+local r16_3 = loadstring(game:HttpGet("https://pastebin.com/raw/11VPXFx4"))()
+local r17_3 = {}
+function GetEquippedName()
+item = require(game:GetService("ReplicatedStorage").devv.client.Objects.v3item)
+pcall(function()
+l = item.inventory.getEquippedItem().name
+tt = tostring(l)
+end)
+return tt
+end
+function projectileHit(r0_167)
+if game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("projectileHit") then
+game:GetService("ReplicatedStorage").devv.remoteStorage.projectileHit:FireServer(unpack(r0_167))
+end
+end
+function flameHit(r0_164)
+if game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("flameHit") then
+game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("flameHit"):FireServer(unpack(r0_164))
+end
+end
+function acidHit(r0_139)
+if game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("acidHit") then
+game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("acidHit"):FireServer(unpack(r0_139))
+end
+end
+function meleeItemHit(r0_264)
+if game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("meleeItemHit") then
+game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("meleeItemHit"):FireServer(unpack(r0_264))
+end
+end
+function GetEquipped()
+item = require(game:GetService("ReplicatedStorage").devv.client.Objects.v3item)
+pcall(function()
+l = item.inventory.getEquippedItem().guid
+tt = tostring(l)
+end)
+return tt
+end
+function loadFunc(r0_78, r1_78, r2_78)
+l = require(game:GetService("ReplicatedStorage").devv).load
+l_LocalPlayer_0 = game:GetService("Players")[r0_78]
+v5 = l("ClientReplicator")
+v4 = l("FFCChain")
+warn("[TeTraX] Ohio Loader Activated!")
+v5.Set(l_LocalPlayer_0, r1_78, r2_78)
+v5.Replicate(r1_78)
+print(v5.Get(l_LocalPlayer_0, r1_78))
+end
+function allJewelryCases()
+alljewls = {}
+jewelryloc = game:GetService("Workspace").GemRobbery.JewelryCases
+for r3_230, r4_230 in pairs(jewelryloc.LowYieldSpawns:GetChildren()) do
+table.insert(alljewls, r4_230)
+end
+for r3_230, r4_230 in pairs(jewelryloc.HighYieldSpawns:GetChildren()) do
+table.insert(alljewls, r4_230)
+end
+return alljewls
+end
+function getVehicles()
+vehs = {}
+for r3_232, r4_232 in pairs(workspace.Game.Vehicles:GetChildren()) do
+table.insert(vehs, r4_232)
+end
+return vehs
+end
+local r18_3 = nil
+r18_3 = hookmetamethod(game, "__namecall", function(r0_128, ...)
+local r2_128 = {
+...
+}
+local r3_128 = getnamecallmethod()
+if getgenv().autofist == true and r3_128 == "FireServer" and r0_128.Name == "equip" then
+return "Fists"
+end
+return r18_3(r0_128, unpack(r2_128))
+end)
+function changeColor()
+color3func = getgenv().setColor or r16_3.setColorfunc()
+game:GetService("Lighting").Atmosphere.Color = color3func
+end
+changeColor()
+function activateColor()
+game:GetService("Lighting").Atmosphere:GetPropertyChangedSignal("Color"):Connect(changeColor)
+end
+activateColor()
+function antifogger()
+if game:GetService("Lighting").Atmosphere.Density > 0 then
+game:GetService("Lighting").Atmosphere.Density = 0
+end
+end
+antifogger()
+function activateAntiFog()
+game:GetService("Lighting").Atmosphere:GetPropertyChangedSignal("Density"):Connect(antifogger)
+end
+activateAntiFog()
+function getTreasure()
+tresleft = {}
+treasure = workspace.Game.Local.Debris
+for r3_79, r4_79 in pairs(treasure:GetChildren()) do
+if r4_79.Name == "TreasureMarker" then
+table.insert(tresleft, r4_79)
+end
+end
+return tresleft
+end
+function chatSpy()
+enabled = true
+spyOnMyself = true
+public = false
+publicItalics = true
+privateProperties = {
+Color = Color3.fromRGB(0, 255, 255),
+Font = Enum.Font.SourceSansBold,
+TextSize = 18,
+}
+StarterGui = game:GetService("StarterGui")
+Players = game:GetService("Players")
+player = Players.LocalPlayer or Players:GetPropertyChangedSignal("LocalPlayer"):Wait() or Players.LocalPlayer
+saymsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
+getmsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering")
+instance = (getgenv().chatSpyInstance or 0) + 1
+getgenv().chatSpyInstance = instance
+function onChatted(r0_252, r1_252)
+if getgenv().chatSpyInstance == instance then
+if r0_252 == player and r1_252:lower():sub(1, 4) == "/spy" then
+enabled = not enabled
+wait(0.3)
+local r2_252 = privateProperties
+local r3_252 = "{SPY "
+local r4_252 = enabled
+if r4_252 then
+r4_252 = "EN" or "DIS"
+else
+end
+r2_252.Text = r3_252 .. r4_252 .. "ABLED}"
+StarterGui:SetCore("ChatMakeSystemMessage", privateProperties)
+elseif enabled and (spyOnMyself == true or r0_252 ~= player) then
+r1_252 = r1_252:gsub("[\n\r]", ""):gsub("\t", " "):gsub("[ ]+", " ")
+hidden = true
+conn = getmsg.OnClientEvent:Connect(function(r0_253, r1_253)
+if r0_253.SpeakerUserId == r0_252.UserId and r0_253.Message == r1_252:sub(#r1_252 - #r0_253.Message + 1) and (r1_253 == "All" or r1_253 == "Team" and public == false and Players[r0_253.FromSpeaker].Team == player.Team) then
+hidden = false
+end
+end)
+wait(1)
+conn:Disconnect()
+if hidden and enabled then
+if public then
+local r2_252 = saymsg
+local r4_252 = publicItalics
+if r4_252 then
+r4_252 = "/me " or ""
+else
+end
+r2_252:FireServer(r4_252 .. "{SPY} [" .. r0_252.Name .. "]: " .. r1_252, "All")
+else
+privateProperties.Text = "{SPY} [" .. r0_252.Name .. "]: " .. r1_252
+StarterGui:SetCore("ChatMakeSystemMessage", privateProperties)
+end
+end
+end
+end
+end
+for r3_249, r4_249 in ipairs(Players:GetPlayers()) do
+r4_249.Chatted:Connect(function(r0_254)
+onChatted(r4_249, r0_254)
+end)
+end
+Players.PlayerAdded:Connect(function(r0_250)
+r0_250.Chatted:Connect(function(r0_251)
+onChatted(r0_250, r0_251)
+end)
+end)
+local r0_249 = privateProperties
+local r1_249 = "{TeTraXChatSPY "
+local r2_249 = enabled
+if r2_249 then
+r2_249 = "EN" or "DIS"
+else
+end
+r0_249.Text = r1_249 .. r2_249 .. "ABLED}"
+StarterGui:SetCore("ChatMakeSystemMessage", privateProperties)
+if not player.PlayerGui:FindFirstChild("Chat") then
+wait(3)
+end
+chatFrame = player.PlayerGui.Chat.Frame
+chatFrame.ChatChannelParentFrame.Visible = true
+local r3_249 = UDim.new()
+local r4_249 = chatFrame
+r4_249 = r4_249.ChatChannelParentFrame
+r4_249 = r4_249.Size
+r4_249 = r4_249.Y
+chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position + UDim2.new(r3_249, r4_249)
+end
+chatSpy()
+function getJewelryGUIDALL()
+aljewelry = {
+"Dark Matter Gem",
+"Void Gem",
+"Diamond Ring",
+"Diamond",
+"Rollie",
+"Gold Crown",
+"Gold Cup",
+"Emerald",
+"Emerald Ring",
+"Gold Bar",
+"Amethyst",
+"Amethyst Ring",
+"Topaz",
+"Topaz Ring",
+"Sapphire Ring",
+"Sapphire",
+"Ruby",
+"Ruby Ring",
+"Watch",
+nil
+}
+jewelrycases = allJewelryCases()
+guidjca = {}
+for r3_129, r4_129 in pairs(jewelrycases) do
+local r5_129 = pairs
+local r6_129 = aljewelry
+for r8_129, r9_129 in r5_129(r6_129) do
+local r10_129 = r4_129.PrimaryPart
+if r10_129 then
+local r11_129 = r4_129.PrimaryPart.Position
+dis = (r6_3.Position - r11_129).magnitude
+r10_129 = dis
+if r10_129 <= 11 then
+table.insert(guidjca, r4_129:GetAttribute("guid"))
+end
+end
+end
+end
+return guidjca
+end
+function getJewelryGUID()
+jewelry = {
+"Dark Matter Gem",
+"Void Gem",
+"Diamond Ring",
+"Diamond",
+"Rollie",
+"Gold Crown",
+"Gold Cup"
+}
+jewelrycases = allJewelryCases()
+guidj = {}
+for r3_184, r4_184 in pairs(jewelrycases) do
+local r5_184 = pairs
+local r6_184 = jewelry
+for r8_184, r9_184 in r5_184(r6_184) do
+if r4_184.PrimaryPart then
+dis = (r6_3.Position - r4_184.PrimaryPart.Position).magnitude
+if dis <= 10 then
+table.insert(guidj, r4_184:GetAttribute("guid"))
+end
+end
+end
+end
+return guidj
+end
+function equip(r0_105)
+if game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("equip") then
+game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("equip"):FireServer(r0_105)
+end
+end
+function buyItem(r0_160)
+if game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("attemptPurchase") then
+game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("attemptPurchase"):InvokeServer(r0_160)
+end
+end
+function attemptCall(r0_27)
+if game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("attemptCall") then
+reqload = require(game:GetService("ReplicatedStorage").devv).load
+loader = reqload("Signal")
+value, callid = loader.InvokeServer("attemptCall", r0_27.UserId)
+loader.FireServer("sendPhoneAction", callid, "hangup")
+end
+end
+function buyAmmo(r0_189)
+if game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("attemptPurchaseAmmo") then
+game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("attemptPurchaseAmmo"):InvokeServer(r0_189)
+end
+end
+function Reload(r0_55)
+if game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("reload") then
+game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("reload"):FireServer(r0_55)
+end
+end
+function sellitem(r0_231)
+if game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("sellItem") then
+game:GetService("ReplicatedStorage").devv.remoteStorage.sellItem:FireServer(r0_231)
+end
+end
+function sellallitems()
+gg = require(game:GetService("ReplicatedStorage").devv.client.Objects.v3item)
+for r3_158, r4_158 in next, gg.inventory.ordered, nil do
+sellitem(r4_158)
+end
+end
+function pepperSprayHit(r0_98)
+if game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("pepperSprayHit") then
+game:GetService("ReplicatedStorage").devv.remoteStorage.pepperSprayHit:FireServer(unpack(r0_98))
+end
+end
+function replicateProjectiles(r0_261)
+if game:GetService("ReplicatedStorage").devv.remoteStorage:FindFirstChild("replicateProjectiles") then
+game:GetService("Repl
